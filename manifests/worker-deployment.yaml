@@ -15,5 +15,5 @@ spec:
         app: worker
     spec:
       containers:
-      - image: lucj/voting:worker
+      - image: lucj/voting:worker.java
         name: worker
