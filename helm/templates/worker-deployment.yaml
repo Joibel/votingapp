@@ -15,5 +15,5 @@ spec:
         app: worker
     spec:
       containers:
-      - image: lucj/voting:worker.java
+      - image: lucj/voting:worker.{{ .Values.worker.language }}
         name: worker

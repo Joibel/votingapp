@@ -1,7 +1,6 @@
-# Default values for votingApp.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-ingress: false
-
-pvc: false
+vote:
+  port: 31000
+result:
+  port: 31001
+worker:
+  language: java
