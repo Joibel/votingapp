@@ -3,4 +3,4 @@ vote:
 result:
   port: 31001
 worker:
-  language: java
+  image: lucj/voting:worker.java
