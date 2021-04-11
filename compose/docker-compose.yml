@@ -8,11 +8,20 @@ services:
         condition: service_healthy
     volumes:
       - ../../vote:/app
+    networks:
+      - front-tier
+      - back-tier
+
+  vote-ui:
+    build: ../../vote-ui
+    depends_on:
+      vote:
+        condition: service_started
     ports:
       - "5000:80"
     networks:
       - front-tier
-      - back-tier
+    restart: unless-stopped
 
   result:
     build: ../../result
@@ -24,7 +33,6 @@ services:
     volumes:
       - ../../result:/app
     ports:
-      - "5001:80"
       - "5858:5858"
     networks:
       - front-tier
@@ -36,10 +44,9 @@ services:
       result:
         condition: service_started
     ports:
-      - "5002:80"
+      - "5001:80"
     networks:
       - front-tier
-      - back-tier
     restart: unless-stopped
 
   worker:

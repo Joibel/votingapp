@@ -3,6 +3,7 @@ services:
   redis:
     image: redis:6.2-alpine3.13
     networks:
+      - frontend
       - backend
     deploy:
       replicas: 1
@@ -21,15 +22,17 @@ services:
       - db-data:/var/lib/postgresql/data
     networks:
       - backend
+      - frontend
     deploy:
       placement:
         constraints: [node.role == manager]
 
   vote:
-    image: registry.gitlab.com/voting-application/vote
+    image: registry.gitlab.com/voting-application/vote:v1.0
+    ports:
+      - 5000:80
     networks:
       - frontend
-      - backend
     depends_on:
       - redis
     deploy:
@@ -39,27 +42,12 @@ services:
       restart_policy:
         condition: on-failure
 
-  vote-ui:
-    image: registry.gitlab.com/voting-application/vote-ui
-    ports:
-      - 5000:80
-    networks:
-      - frontend
-    depends_on:
-      - vote
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 2
-        delay: 10s
-      restart_policy:
-        condition: on-failure
-
   result:
-    image: registry.gitlab.com/voting-application/result
+    image: registry.gitlab.com/voting-application/result:v1.0
+    ports:
+      - 5001:80
     networks:
       - frontend
-      - backend
     depends_on:
       - db
     deploy:
@@ -70,24 +58,8 @@ services:
       restart_policy:
         condition: on-failure
 
-  result-ui:
-    image: registry.gitlab.com/voting-application/result-ui
-    ports:
-      - 5001:80
-    networks:
-      - frontend
-    depends_on:
-      - result
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 2
-        delay: 10s
-      restart_policy:
-        condition: on-failure
-
   worker:
-    image: registry.gitlab.com/voting-application/worker:${LANGUAGE:-dotnet}
+    image: registry.gitlab.com/voting-application/worker:v1.0-${LANGUAGE:-dotnet}
     networks:
       - backend
     depends_on:
