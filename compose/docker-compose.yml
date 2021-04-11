@@ -6,6 +6,8 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+    ports:
+      - "5002:80"
     volumes:
       - ../../vote:/app
     networks:
