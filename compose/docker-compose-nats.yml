@@ -4,8 +4,7 @@ services:
     # use python rather than gunicorn for local dev
     command: python app.py
     depends_on:
-      redis:
-        condition: service_healthy
+      - nats
     ports:
       - "5002:80"
     volumes:
@@ -30,8 +29,7 @@ services:
     # use nodemon rather than node for local dev
     command: nodemon server.js
     depends_on:
-      db:
-        condition: service_healthy
+      - nats
     volumes:
       - ../../result:/app
     ports:
@@ -51,45 +49,12 @@ services:
       - front-tier
     restart: unless-stopped
 
-  worker:
-    build:
-      context: ../../worker
-      dockerfile: Dockerfile.${LANGUAGE:-dotnet}
-    depends_on:
-      redis:
-        condition: service_healthy
-      db:
-        condition: service_healthy
-    networks:
-      - back-tier
-
-  redis:
-    image: redis:6.2-alpine3.13
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: "5s"
+  nats:
+    image: nats:2.2-alpine3.13
     ports:
-      - 6379:6379
+      - 4222:4222
     networks:
       - back-tier
-
-  db:
-    image: postgres:13.2-alpine
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-    volumes:
-      - "db-data:/var/lib/postgresql/data"
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
-      interval: "5s"
-    ports:
-      - 5432:5432
-    networks:
-      - back-tier
-
-volumes:
-  db-data:
 
 networks:
   front-tier:
