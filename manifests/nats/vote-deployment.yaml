@@ -15,8 +15,9 @@ spec:
         app: vote
     spec:
       containers:
-      - image: lucj/voting:vote
-        name: vote
-        ports:
-        - containerPort: 80
+        - image: registry.gitlab.com/voting-application/vote:nats
           name: vote
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: vote
