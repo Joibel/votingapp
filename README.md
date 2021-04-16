@@ -1,7 +1,6 @@
-Config repository to illustrate how the VotingApp can be deployed:
+Config repository to illustrate how the different versions of the VotingApp can be deployed:
 - on different environments
 - using different tools
-
 
 ## Deployment on a simple machine with Docker Compose
 
@@ -13,7 +12,7 @@ From *config/compose*, run the following command:
 $ docker-compose up
 ```
 
-This deploys the VotingApp using the worker's .NET version by default.
+This deploys the latest version of the VotingApp using the worker's .NET version by default.
 
 The *LANGUAGE* environment variable needs to be set to *java* to deploy the VotingApp with the Java version of the worker:
 
@@ -30,7 +29,7 @@ In a Kubernetes context, the VotingApp is defined in several ways:
 
 ### Using raw manifests files
 
-Within the *config/manifests* folder:
+Within the *config/manifests/v1* folder:
 
 ```
 $ kubectl apply -f .
