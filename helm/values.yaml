@@ -1,6 +1,6 @@
 # Version of the VotingApp among latest, nats and v1
-version: nats
+version: latest
 
 # Version of the worker among java, dotnet and go
 worker:
-  language: dotnet
+  language: go
