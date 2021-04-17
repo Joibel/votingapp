@@ -1,3 +1,4 @@
+{{ if ne .Values.version "nats" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,19 +16,20 @@ spec:
         app: db
     spec:
       containers:
-      - image: postgres:9.4
-        name: postgres
-        env:
-        - name: POSTGRES_USER
-          value: postgres
-        - name: POSTGRES_PASSWORD
-          value: postgres
-        ports:
-        - containerPort: 5432
+        - image: postgres:13.2-alpine
           name: postgres
-        volumeMounts:
-        - mountPath: /var/lib/postgresql/data
-          name: db-data
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db-data
       volumes:
-      - name: db-data
-        emptyDir: {} 
+        - name: db-data
+          emptyDir: {}
+{{ end }}

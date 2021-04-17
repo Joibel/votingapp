@@ -1,6 +1,6 @@
-vote:
-  port: 31002
-result:
-  port: 31003
+# Version of the VotingApp among latest, nats and v1
+version: nats
+
+# Version of the worker among java, dotnet and go
 worker:
-  image: lucj/voting:worker.java
+  language: dotnet

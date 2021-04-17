@@ -15,8 +15,9 @@ spec:
         app: result
     spec:
       containers:
-      - image: lucj/voting:result
-        name: result
-        ports:
-        - containerPort: 80
+        - image: registry.gitlab.com/voting-application/result:{{ .Values.version }}
           name: result
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: result

@@ -7,10 +7,11 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - name: "vote-service"
-    port: 5000
-    targetPort: 80
-    nodePort: {{ .Values.vote.port }}
+    - name: "vote-service"
+      port: 80
+      targetPort: 80
+      {{ if eq .Values.version "v1" }}
+      nodePort: 31000
+      {{ end }}
   selector:
     app: vote
-  

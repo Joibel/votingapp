@@ -1,3 +1,4 @@
+{{ if ne .Values.version "nats" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,5 +16,7 @@ spec:
         app: worker
     spec:
       containers:
-      - image: {{ .Values.worker.image }}
-        name: worker
+        - image: registry.gitlab.com/voting-application/worker:{{ .Values.worker.language }}
+          name: worker
+          imagePullPolicy: Always
+{{ end }}

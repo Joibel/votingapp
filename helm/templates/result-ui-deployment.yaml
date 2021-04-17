@@ -1,23 +1,25 @@
+{{ if ne .Values.version "v1" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: vote
-  name: vote
+    app: result-ui
+  name: result-ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: vote
+      app: result-ui
   template:
     metadata:
       labels:
-        app: vote
+        app: result-ui
     spec:
       containers:
-        - image: registry.gitlab.com/voting-application/vote:{{ .Values.version }}
-          name: vote
+        - image: registry.gitlab.com/voting-application/result-ui
+          name: result-ui
           imagePullPolicy: Always
           ports:
             - containerPort: 80
-              name: vote
+              name: result-ui
+{{ end }}
