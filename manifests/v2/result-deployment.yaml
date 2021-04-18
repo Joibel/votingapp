@@ -15,7 +15,7 @@ spec:
         app: result
     spec:
       containers:
-        - image: registry.gitlab.com/voting-application/result
+        - image: registry.gitlab.com/voting-application/result:v2
           name: result
           imagePullPolicy: Always
           ports:

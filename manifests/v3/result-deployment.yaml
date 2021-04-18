@@ -15,7 +15,7 @@ spec:
         app: result
     spec:
       containers:
-        - image: registry.gitlab.com/voting-application/result:nats
+        - image: registry.gitlab.com/voting-application/result:v3
           name: result
           imagePullPolicy: Always
           ports:
