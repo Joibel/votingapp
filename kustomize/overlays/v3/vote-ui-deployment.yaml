@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: result
-  name: result
+    app: vote-ui
+  name: vote-ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: result
+      app: vote-ui
   template:
     metadata:
       labels:
-        app: result
+        app: vote-ui
     spec:
       containers:
-        - image: registry.gitlab.com/voting-application/result
-          name: result
+        - image: registry.gitlab.com/voting-application/vote-ui
+          name: vote-ui
           imagePullPolicy: Always
           ports:
             - containerPort: 80
-              name: result
+              name: vote-ui
