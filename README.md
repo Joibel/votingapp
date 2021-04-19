@@ -2,4 +2,4 @@ Config repository to illustrate how the different versions of the VotingApp can 
 - on different environments
 - using different tools
 
-[More information](../VotingApp/README.md)
+[More information](https://gitlab.com/voting-application/votingapp/-/blob/master/README.md)
