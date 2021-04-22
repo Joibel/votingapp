@@ -16,7 +16,7 @@ spec:
         app: result-ui
     spec:
       containers:
-        - image: registry.gitlab.com/voting-application/result-ui
+        - image: {{ .Values.registry }}/result-ui:{{ if eq .Values.images.result true }}images{{ else }}latest{{ end }}
           name: result-ui
           imagePullPolicy: Always
           ports:

@@ -15,7 +15,7 @@ spec:
         app: result
     spec:
       containers:
-        - image: registry.gitlab.com/voting-application/result:{{ .Values.version }}
+        - image: {{ .Values.registry }}/result:{{ .Values.version }}
           name: result
           imagePullPolicy: Always
           ports:

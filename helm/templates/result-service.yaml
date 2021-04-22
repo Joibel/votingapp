@@ -5,7 +5,9 @@ metadata:
     app: result
   name: result
 spec:
+  {{ if eq .Values.version "v1" }}
   type: NodePort
+  {{ end }}
   ports:
     - name: "result-service"
       port: 80

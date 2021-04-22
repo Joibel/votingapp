@@ -16,7 +16,7 @@ spec:
         app: worker
     spec:
       containers:
-        - image: registry.gitlab.com/voting-application/worker:{{ .Values.worker.language }}
+        - image: {{ .Values.registry }}/worker:{{ .Values.worker.language }}
           name: worker
           imagePullPolicy: Always
 {{ end }}

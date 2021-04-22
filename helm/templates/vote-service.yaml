@@ -5,7 +5,9 @@ metadata:
     app: vote
   name: vote
 spec:
+  {{ if eq .Values.version "v1" }}
   type: NodePort
+  {{ end }}
   ports:
     - name: "vote-service"
       port: 80

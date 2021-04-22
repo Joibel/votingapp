@@ -16,7 +16,7 @@ spec:
         app: vote-ui
     spec:
       containers:
-        - image: registry.gitlab.com/voting-application/vote-ui
+        - image: {{ .Values.registry }}/vote-ui:{{ if eq .Values.images.vote true }}images{{ else }}latest{{ end }}
           name: vote-ui
           imagePullPolicy: Always
           ports:
