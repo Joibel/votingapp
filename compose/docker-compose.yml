@@ -19,6 +19,8 @@ services:
     depends_on:
       vote:
         condition: service_started
+    volumes:
+      - ../../vote-ui:/usr/share/nginx/html
     ports:
       - "5000:80"
     networks:
