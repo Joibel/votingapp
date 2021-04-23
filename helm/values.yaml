@@ -12,3 +12,6 @@ images:
 # Version of the worker among java, dotnet and go
 worker:
   language: go
+
+# Ingress
+ingress: false
