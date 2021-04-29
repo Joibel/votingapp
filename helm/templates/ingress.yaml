@@ -2,21 +2,27 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingress
+  name: voting
 spec:
   entryPoints:
-    - websecure
+  {{- if eq .Values.tls true }}
+  - websecure
+  {{- else }}
+  - web
+  {{- end }}
   routes:
   - match: Host(`vote.techwhale.io`)
     kind: Rule
     services:
     - name: vote-ui
-      port: 5000
+      port: 80
   - match: Host(`result.techwhale.io`)
     kind: Rule
     services:
     - name: result-ui
-      port: 5001
+      port: 80
+  {{- if eq .Values.tls true }}
   tls:
     certResolver: le
+  {{- end }}
 {{ end }}
