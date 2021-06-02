@@ -14,7 +14,7 @@ worker:
   language: go
 
 # Ingress
-ingress: true
+ingress: false
 
 # Serve over https
 tls: false
