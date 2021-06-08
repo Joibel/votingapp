@@ -132,3 +132,10 @@ The different flavors of the application can be installed using [Kustomize](http
 ```
 kubectl apply -k overlays/VERSION
 ```
+
+# Blog articles
+
+Several articles using the VotingApp to illustrate technological pieces:
+- [Raw Manifests, Helm, Kustomize Several ways an application can be deployed in Kubernetes](https://itnext.io/k8s-tips-manifests-helm-kustomize-12f72f878022)
+- [Deploying the VotingApp on Shipa](https://itnext.io/deploying-the-votingapp-on-shipa-2af9c6097bb3)
+- [Docker, Kaniko, Buildah, different ways to build container images](https://itnext.io/docker-kaniko-buildah-209abdde5f94)
