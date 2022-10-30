@@ -27,9 +27,13 @@ build acorn app:
     - apk add curl
     - curl -f k3s:8081 > k3s.yaml
     - export KUBECONFIG=$(pwd)/k3s.yaml
-    - echo "todo-install acorn"
     - kubectl version
     - kubectl cluster-info
+    - curl https://get.acorn.io | sh
+    - acorn install
+    - acorn build -t docker.io/lucj/voting:$CI_COMMIT_TAG
+    - echo "acorn login..."
+    - echo "acorn push..." 
   only:
     - tags
 
