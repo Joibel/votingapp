@@ -56,6 +56,8 @@ update config:
   script:
     - cd acorn
     - yq -i ".spec.image=\"docker.io/lucj/voting:${CI_COMMIT_TAG}\"" ./app.yaml
+    - git config --global user.email "devops@techwhale.io"
+    - git config --global user.name "TechWhale DevOps"
     - git add ./app.yaml   
     - git commit -m "Update app with tag $CI_COMMIT_TAG"
     - git push -o ci.skip origin master
