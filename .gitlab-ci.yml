@@ -25,6 +25,7 @@ build acorn app:
       alias: k3s
   script:
     - apk add curl
+    - cd acorn
     - curl -f k3s:8081 > k3s.yaml
     - export KUBECONFIG=$(pwd)/k3s.yaml
     - kubectl version
