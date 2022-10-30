@@ -6,8 +6,6 @@ services:
     depends_on:
       redis:
         condition: service_healthy
-    ports:
-      - "5002:80"
     volumes:
       - ../../vote:/app
     networks:
@@ -36,8 +34,6 @@ services:
         condition: service_healthy
     volumes:
       - ../../result:/app
-    ports:
-      - "5858:5858"
     networks:
       - front-tier
       - back-tier
@@ -55,8 +51,8 @@ services:
 
   worker:
     build:
-      context: ../../worker
-      dockerfile: Dockerfile.${LANGUAGE:-dotnet}
+      context: ../../worker/${LANGUAGE:-go}
+      dockerfile: Dockerfile
     depends_on:
       redis:
         condition: service_healthy
@@ -66,7 +62,7 @@ services:
       - back-tier
 
   redis:
-    image: redis:6.2-alpine3.13
+    image: redis:7.0.5-alpine3.16
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: "5s"
@@ -76,7 +72,7 @@ services:
       - back-tier
 
   db:
-    image: postgres:13.2-alpine
+    image: postgres:15.0-alpine3.16
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"

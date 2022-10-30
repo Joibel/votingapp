@@ -5,8 +5,6 @@ services:
     command: python app.py
     depends_on:
       - nats
-    ports:
-      - "5002:80"
     volumes:
       - ../../vote:/app
     networks:
@@ -34,8 +32,6 @@ services:
       - nats
     volumes:
       - ../../result:/app
-    ports:
-      - "5858:5858"
     networks:
       - front-tier
       - back-tier
