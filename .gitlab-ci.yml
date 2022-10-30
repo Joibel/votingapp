@@ -59,6 +59,7 @@ update config:
     - git config --global user.name "TechWhale DevOps"
     - git add ./acorn/app.yaml   
     - git commit -m "Update app with tag $CI_COMMIT_TAG"
+    - git branch
     - git push -o ci.skip origin
   only:
     - tags
