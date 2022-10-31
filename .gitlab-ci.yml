@@ -57,10 +57,10 @@ update config:
     - git config --global user.email "devops@techwhale.io"
     - git config --global user.name "TechWhale DevOps"
     - git checkout -B "$CI_COMMIT_REF_NAME" "$CI_COMMIT_SHA"
+    - git branch -a
     - yq -i ".spec.image=\"docker.io/lucj/voting:${CI_COMMIT_TAG}\"" ./acorn/app.yaml
     - git add ./acorn/app.yaml   
     - git commit -m "Update app with tag $CI_COMMIT_TAG"
-    - git branch
-    - git push origin $BRANCH_NAME -o ci.skip origin
+    - git push -o ci.skip origin $BRANCH_NAME
   only:
     - tags
