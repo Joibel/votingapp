@@ -56,17 +56,10 @@ update config:
   script:
     - git config --global user.email "devops@techwhale.io"
     - git config --global user.name "TechWhale DevOps"
-    - git checkout -B "$CI_COMMIT_REF_NAME" "$CI_COMMIT_SHA"
-    - cat .git/config
-    - cat .git/HEAD
-    - git branch -a
+    - git remote add gitlab_origin https://oauth2:${GITLAB_TOKEN}@gitlab.com/voting-application/config.git
     - yq -i ".spec.image=\"docker.io/lucj/voting:${CI_COMMIT_TAG}\"" ./acorn/app.yaml
     - git add ./acorn/app.yaml   
     - git commit -m "Update app with tag $CI_COMMIT_TAG"
-    - git status
-    - git checkout -b master
-    - git status
-    - git merge $CI_COMMIT_REF_NAME
-    - git push -o ci.skip origin master
+    - git push gitlab_origin HEAD:master -o ci.skip
   only:
     - tags
