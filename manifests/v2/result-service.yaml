@@ -5,10 +5,9 @@ metadata:
     app: result
   name: result
 spec:
-  type: NodePort
   ports:
     - name: "result-service"
-      port: 80
-      targetPort: 80
+      port: 5000
+      targetPort: 5000
   selector:
     app: result
