@@ -25,9 +25,10 @@ services:
     restart: unless-stopped
 
   result:
-    build: ../../result
-    # use nodemon rather than node for local dev
-    command: nodemon server.js
+    build: 
+      context: ../../result
+      dockerfile: Dockerfile
+      target: dev
     depends_on:
       - nats
     volumes:
