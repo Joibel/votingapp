@@ -1,8 +1,9 @@
 services:
   vote:
-    build: ../../vote
-    # use python rather than gunicorn for local dev
-    command: python app.py
+    build: 
+      context: ../../vote
+      dockerfile: Dockerfile
+      target: dev
     depends_on:
       redis:
         condition: service_healthy
@@ -40,10 +41,15 @@ services:
       - back-tier
 
   result-ui:
-    build: ../../result-ui
+    build:
+      context: ../../result-ui
+      dockerfile: Dockerfile
+      target: dev
     depends_on:
       result:
         condition: service_started
+    volumes:
+      - ../../result-ui:/app
     ports:
       - "5001:80"
     networks:
