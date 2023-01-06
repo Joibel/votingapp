@@ -50,8 +50,8 @@ services:
     depends_on:
       result:
         condition: service_started
-    #volumes:
-    #  - ../../result-ui:/app
+    volumes:
+      - ../../result-ui/src:/app/src
     ports:
       - "5001:80"
     networks:
