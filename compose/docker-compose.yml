@@ -35,9 +35,7 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - ../../result/package.json:/app/package.json
-      - ../../result/package-lock.json:/app/package-lock.json
-      - ../../result/server.js:/app/server.js
+      - ../../result:/app
     networks:
       - front-tier
       - back-tier
