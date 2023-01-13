@@ -17,6 +17,8 @@ result_ui:
 nats: enabled
 result-ui:
   tag: v1.0.7
+vote-ui:
+  tag: v1.0.8
 
 # Ingress
 #  ingress: 
