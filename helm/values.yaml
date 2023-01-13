@@ -9,7 +9,7 @@ worker:
   tag: v1.0.1
 # Ignored if NATS enabled
 result:
-  tag: v1.0.5
+  tag: v1.0.6
 result_ui:
   tag: v1.0.6
 # Using NATS instead of worker mode
