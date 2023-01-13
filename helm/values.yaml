@@ -1,20 +1,29 @@
 # Image registry with repository
 registry:  registry.gitlab.com/voting-application
 
-# Version of the VotingApp among v1, v2 and v3
-version: v2
+vote_ui: 
+  tag: v1.0.7
 
-# Show images instead of labels
-images:
-  vote: false
-  result: false
+# Ignored if nats enabled
+vote:
+  tag: v1.0.4 
 
-# Version of the worker among java, dotnet and go
-worker:
-  language: go
+worker: 
+  tag: v1.0.1
+
+# Ignored if NATS enabled
+result:
+  tag: v1.0.3
+
+result_ui: 
+  tag: v1.0.6
+
+# Using NATS instead of worker mode
+# Allowed values: enabled, disabled
+nats: enabled
 
 # Ingress
-ingress: false
-
-# Serve over https
-tls: false
+#  ingress: 
+#    enabled: false
+#    (ignored if ingress disabled)
+#    tls: false

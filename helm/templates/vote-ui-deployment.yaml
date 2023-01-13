@@ -1,4 +1,3 @@
-{{ if ne .Values.version "v1" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,10 +15,9 @@ spec:
         app: vote-ui
     spec:
       containers:
-        - image: {{ .Values.registry }}/vote-ui:{{ if eq .Values.images.vote true }}images{{ else }}latest{{ end }}
+        - image: {{ .Values.registry }}/vote-ui:{{ .Values.vote_ui.tag }}
           name: vote-ui
           imagePullPolicy: Always
           ports:
             - containerPort: 80
               name: vote-ui
-{{ end }}

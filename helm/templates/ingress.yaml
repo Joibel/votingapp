@@ -1,11 +1,11 @@
-{{ if eq .Values.ingress true }}
+{{ if .Values.ingress }}{{ if eq .Values.ingress.enabled true }}
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: voting
 spec:
   entryPoints:
-  {{- if eq .Values.tls true }}
+  {{- if eq .Values.ingress.tls true }}
   - websecure
   {{- else }}
   - web
@@ -21,8 +21,8 @@ spec:
     services:
     - name: result-ui
       port: 80
-  {{- if eq .Values.tls true }}
+  {{- if eq .Values.ingress.tls true }}
   tls:
     certResolver: le
   {{- end }}
-{{ end }}
+{{ end }}{{ end }}

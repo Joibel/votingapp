@@ -1,4 +1,4 @@
-{{ if ne .Values.version "v3" }}
+{{- if or (not .Values.nats) (eq .Values.nats "disabled") }} 
 apiVersion: v1
 kind: Service
 metadata:

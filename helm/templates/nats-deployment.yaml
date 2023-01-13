@@ -1,4 +1,4 @@
-{{ if eq .Values.version "v3" }}
+{{- if .Values.nats }}{{ if eq .Values.nats "enabled" }} 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,9 +16,9 @@ spec:
         app: nats
     spec:
       containers:
-        - image: nats:2.2-alpine3.13
+        - image: nats:2.9.11-alpine3.17
           name: nats
           ports:
             - containerPort: 4222
               name: nats
-{{ end }}
+{{ end }}{{ end }}

@@ -15,7 +15,7 @@ spec:
         app: result
     spec:
       containers:
-        - image: {{ .Values.registry }}/result:{{ .Values.version }}
+        - image: {{ .Values.registry }}/result:{{ include "votingApp.imageTag" . | default .Values.result.tag }}
           name: result
           imagePullPolicy: Always
           ports:

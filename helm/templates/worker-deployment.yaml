@@ -1,4 +1,4 @@
-{{ if ne .Values.version "v3" }}
+{{- if or (not .Values.nats) (eq .Values.nats "disabled") }} 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +16,7 @@ spec:
         app: worker
     spec:
       containers:
-        - image: {{ .Values.registry }}/worker:{{ .Values.worker.language }}
+        - image: {{ .Values.registry }}/worker:{{ .Values.worker.tag }}
           name: worker
           imagePullPolicy: Always
 {{ end }}

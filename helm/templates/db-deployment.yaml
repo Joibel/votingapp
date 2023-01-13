@@ -1,4 +1,4 @@
-{{ if ne .Values.version "v3" }}
+{{- if or (not .Values.nats) (eq .Values.nats "disabled") }} 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +16,7 @@ spec:
         app: db
     spec:
       containers:
-        - image: postgres:13.2-alpine
+        - image: postgres:15.1-alpine3.17
           name: postgres
           env:
             - name: POSTGRES_USER
@@ -32,4 +32,4 @@ spec:
       volumes:
         - name: db-data
           emptyDir: {}
-{{ end }}
+{{- end }}

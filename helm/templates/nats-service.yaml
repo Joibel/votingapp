@@ -1,4 +1,4 @@
-{{ if eq .Values.version "v3" }}
+{{- if .Values.nats }}{{ if eq .Values.nats "enabled" }} 
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,4 +13,4 @@ spec:
       targetPort: 4222
   selector:
     app: nats
-{{ end }}
+{{ end }}{{ end }}
