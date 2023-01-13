@@ -24,6 +24,8 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+    #environment:
+    #  BACKEND: nats
     volumes:
       - ../../vote:/app
     networks:
@@ -56,6 +58,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    #environment:
+    #  BACKEND: nats
     volumes:
       - ../../result:/app
     networks:
@@ -117,6 +121,13 @@ services:
       interval: "5s"
     ports:
       - 5432:5432
+    networks:
+      - back-tier
+
+  nats:
+    image: nats:2.9.11-alpine3.17
+    ports:
+      - 4222:4222
     networks:
       - back-tier
 
