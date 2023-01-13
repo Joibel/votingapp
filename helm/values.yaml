@@ -15,6 +15,8 @@ result_ui:
 # Using NATS instead of worker mode
 # Allowed values: enabled, disabled
 nats: enabled
+result-ui:
+  tag: v1.0.7
 
 # Ingress
 #  ingress: 
