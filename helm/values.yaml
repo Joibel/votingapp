@@ -4,7 +4,7 @@ vote_ui:
   tag: v1.0.7
 # Ignored if nats enabled
 vote:
-  tag: v1.0.4
+  tag: v1.0.5
 worker:
   tag: v1.0.1
 # Ignored if NATS enabled
