@@ -1,23 +1,17 @@
 # Image registry with repository
-registry:  registry.gitlab.com/voting-application
-
-vote_ui: 
+registry: registry.gitlab.com/voting-application
+vote_ui:
   tag: v1.0.7
-
 # Ignored if nats enabled
 vote:
-  tag: v1.0.4 
-
-worker: 
+  tag: v1.0.4
+worker:
   tag: v1.0.1
-
 # Ignored if NATS enabled
 result:
-  tag: v1.0.3
-
-result_ui: 
+  tag: v1.0.5
+result_ui:
   tag: v1.0.6
-
 # Using NATS instead of worker mode
 # Allowed values: enabled, disabled
 nats: enabled
