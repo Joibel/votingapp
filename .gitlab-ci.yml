@@ -49,7 +49,7 @@ build acorn app:
   only:
     - tags
 
-update config:
+update acorn config:
   stage: config
   image: lucj/ci:1.0
   script:
@@ -70,6 +70,6 @@ push helm chart to docker hub:
     - echo "about to package and push helm chart version $CI_COMMIT_TAG to DockerHub"
     - echo $DOCKERHUB_TOKEN | helm registry login registry-1.docker.io -u lucj --password-stdin
     - helm package helm --version $CI_COMMIT_TAG
-    - helm push votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
+    - helm push voting-app-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
   only:
     - tags
