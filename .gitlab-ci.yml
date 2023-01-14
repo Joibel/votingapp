@@ -7,9 +7,6 @@ stages:
 release:
   image: node:18
   stage: release
-  only:
-    refs:
-      - master
   script:
     - touch CHANGELOG.md
     - npm install @semantic-release/gitlab @semantic-release/exec @semantic-release/changelog
@@ -17,6 +14,9 @@ release:
   artifacts:
     paths:
       - CHANGELOG.md
+  only:
+    refs:
+      - master
 
 build acorn app:
   image: registry.gitlab.com/gitlab-org/cluster-integration/helm-install-image/releases/3.7.1-kube-1.20.11-alpine-3.14
@@ -65,10 +65,9 @@ update config:
 push helm chart to docker hub:
   stage: push
   image: lucj/kubectl-helm
-  script: |
-    - echo $DOCKER_HUB_TOKEN | helm registry login registry-1.docker.io -u lucj --password-stdin
+  script:
+    - echo $DOCKERHUB_TOKEN | helm registry login registry-1.docker.io -u lucj --password-stdin
     - helm package helm --version $CI_COMMIT_TAG
-    - ls -al /builds/voting-application/config/
-    - helm push --debug /builds/voting-application/config/votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
+    - helm push votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
   only:
     - tags
