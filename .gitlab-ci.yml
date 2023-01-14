@@ -1,7 +1,7 @@
 stages:
-  #- release
-  #- build
-  #- config
+  - release
+  - build
+  - config
   - push
 
 release:
@@ -72,5 +72,5 @@ push helm chart to docker hub:
     ls /builds/voting-application/config/votingapp-$CI_COMMIT_TAG.tgz
     echo helm push /builds/voting-application/config/votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
     helm push --debug /builds/voting-application/config/votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
-  #only:
-  #  - tags
+  only:
+    - tags
