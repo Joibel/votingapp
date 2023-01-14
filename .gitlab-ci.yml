@@ -68,6 +68,7 @@ push helm chart to docker hub:
   script: |
     echo $DOCKER_HUB_TOKEN | helm registry login registry-1.docker.io -u lucj --password-stdin
     helm package helm --version $CI_COMMIT_TAG
+    echo helm push /builds/voting-application/config/votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
     helm push /builds/voting-application/config/votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
   only:
     - tags
