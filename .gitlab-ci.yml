@@ -66,11 +66,9 @@ push helm chart to docker hub:
   stage: push
   image: lucj/kubectl-helm
   script: |
-    CI_COMMIT_TAG=v0.0.1
-    echo $DOCKER_HUB_TOKEN | helm registry login registry-1.docker.io -u lucj --password-stdin
-    helm package helm --version $CI_COMMIT_TAG
-    ls /builds/voting-application/config/votingapp-$CI_COMMIT_TAG.tgz
-    echo helm push /builds/voting-application/config/votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
-    helm push --debug /builds/voting-application/config/votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
+    - echo $DOCKER_HUB_TOKEN | helm registry login registry-1.docker.io -u lucj --password-stdin
+    - helm package helm --version $CI_COMMIT_TAG
+    - ls -al /builds/voting-application/config/
+    - helm push --debug /builds/voting-application/config/votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
   only:
     - tags
