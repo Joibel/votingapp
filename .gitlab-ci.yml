@@ -43,9 +43,9 @@ build acorn app:
     - acorn login -u "lucj" -p "$DOCKERHUB_PASSWORD" docker.io
     - mkdir test && cp Acornfile test/Acornfile && cd test
     # - acorn build -t docker.io/lucj/voting:$CI_COMMIT_TAG -p linux/amd64 -p linux/arm64/v8 .
-    - echo "About to build acorn image docker.io/lucj/votingapp:$CI_COMMIT_TAG"
-    - acorn build -t docker.io/lucj/votingapp:$CI_COMMIT_TAG .
-    - acorn push docker.io/lucj/votingapp:$CI_COMMIT_TAG
+    - echo "About to build acorn image docker.io/lucj/voting:$CI_COMMIT_TAG"
+    - acorn build -t docker.io/lucj/voting:$CI_COMMIT_TAG .
+    - acorn push docker.io/lucj/voting:$CI_COMMIT_TAG
   only:
     - tags
 
@@ -70,6 +70,6 @@ push helm chart to docker hub:
     - echo "about to package and push helm chart version $CI_COMMIT_TAG to DockerHub"
     - echo $DOCKERHUB_TOKEN | helm registry login registry-1.docker.io -u lucj --password-stdin
     - helm package helm --version $CI_COMMIT_TAG
-    - helm push voting-app-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
+    - helm push votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
   only:
     - tags
