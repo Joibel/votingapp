@@ -9,7 +9,7 @@ worker:
 result:
   tag: v1.0.7
 result-ui:
-  tag: v1.0.7
+  tag: v1.0.8
 
 # Using NATS instead of worker mode. Possible values: enabled, disabled (default)
 # nats: disabled
