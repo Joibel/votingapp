@@ -15,7 +15,7 @@ spec:
         app: result-ui
     spec:
       containers:
-        - image: {{ .Values.registry }}/result-ui:{{ .Values.result_ui.tag }}
+        - image: {{ .Values.registry }}/result-ui:{{ index .Values "result-ui" "tag" }}
           name: result-ui
           imagePullPolicy: Always
           ports:

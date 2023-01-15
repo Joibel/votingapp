@@ -15,7 +15,7 @@ spec:
         app: vote-ui
     spec:
       containers:
-        - image: {{ .Values.registry }}/vote-ui:{{ .Values.vote_ui.tag }}
+        - image: {{ .Values.registry }}/vote-ui:{{ index .Values "vote-ui" "tag" }}
           name: vote-ui
           imagePullPolicy: Always
           ports:
