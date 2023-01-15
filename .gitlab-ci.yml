@@ -14,13 +14,10 @@ release:
   artifacts:
     paths:
       - CHANGELOG.md
-  #rules:
-  #- if: '$CI_COMMIT_BRANCH == "master"'
-  #  changes:
-  #  - helm/**/*
-  only:
-    refs:
-      - master
+  rules:
+  - if: '$CI_COMMIT_BRANCH == "master"'
+    changes:
+    - helm/**/*
 
 
 build acorn app:
