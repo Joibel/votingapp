@@ -20,6 +20,35 @@ spec:
         - image: registry.gitlab.com/voting-application/vote:v1.0.6
           name: vote
           imagePullPolicy: Always
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            tcpSocket:
+              port: 5000
           ports:
             - containerPort: 5000
-              name: vote
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 128Mi 
+              cpu: 100m
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsUser: 10000
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop:
+              - ALL
+          volumeMounts:
+          - name: temp
+            mountPath: /tmp
+      volumes:
+      - name: temp
+        emptyDir: {}

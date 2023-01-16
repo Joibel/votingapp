@@ -20,6 +20,29 @@ spec:
         - image: registry.gitlab.com/voting-application/vote-ui:v1.0.13
           name: vote-ui
           imagePullPolicy: Always
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            tcpSocket:
+              port: 80
           ports:
             - containerPort: 80
-              name: vote-ui
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 50m
+            limits:
+              memory: 64Mi 
+              cpu: 50m
+          securityContext:
+            allowPrivilegeEscalation: false
+            #readOnlyRootFilesystem: true
+            #runAsUser: 10000
+            #runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+            #capabilities:
+            #  drop:
+            #  - ALL
