@@ -1,5 +1,0 @@
-resources:
-  - result-deployment.yaml
-  - result-service.yaml
-  - vote-deployment.yaml
-  - vote-service.yaml
