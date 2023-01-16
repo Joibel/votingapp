@@ -2,7 +2,7 @@ stages:
   - release
   - build
   - config
-  - push
+  - helm
 
 release:
   image: node:18
@@ -20,7 +20,7 @@ release:
     - helm/**/*
 
 
-build acorn app:
+build and push acorn app:
   image: registry.gitlab.com/gitlab-org/cluster-integration/helm-install-image/releases/3.7.1-kube-1.20.11-alpine-3.14
   stage: build
   services:
@@ -71,13 +71,16 @@ update config:
   only:
     - tags
 
-push helm chart to docker hub:
-  stage: push
+upload helm chart:
+  stage: helm
   image: lucj/kubectl-helm
   script:
     - echo "about to package and push helm chart version $CI_COMMIT_TAG to DockerHub"
     - echo $DOCKERHUB_TOKEN | helm registry login registry-1.docker.io -u lucj --password-stdin
     - helm package helm --version $CI_COMMIT_TAG
+    # Upload to DockerHub
     - helm push votingapp-$CI_COMMIT_TAG.tgz oci://registry-1.docker.io/lucj
+    # Upload to Gitlab Package Registry
+    - curl --request POST --user gitlab-ci-token:$CI_JOB_TOKEN --form "chart=@votingapp-$CI_COMMIT_TAG.tgz" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/api/stable/charts"
   only:
     - tags
