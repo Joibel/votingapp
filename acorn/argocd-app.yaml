@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: traefik
-  namespace: argo
+  name: votingapp
+  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,11 +10,11 @@ spec:
   source:
     repoURL: https://gitlab.com/voting-application/config.git
     targetRevision: master
-    path: apps/traefik
-    plugin: {}
+    path: acorn
+    directory:
+      include: "app.yaml"
   destination:
     server: https://kubernetes.default.svc
-    namespace: traefik
   syncPolicy:
     automated: {}
     syncOptions:
