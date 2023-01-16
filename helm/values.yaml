@@ -1,7 +1,7 @@
 registry: registry.gitlab.com/voting-application
 # Microservices tags
 vote-ui:
-  tag: v1.0.12
+  tag: v1.0.13
 vote:
   tag: v1.0.6
 worker:
