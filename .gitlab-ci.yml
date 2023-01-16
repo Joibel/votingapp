@@ -19,7 +19,7 @@ release:
     changes:
     - helm/**/*
 
-#build and push acorn app:
+build and push acorn app:
   image: registry.gitlab.com/gitlab-org/cluster-integration/helm-install-image/releases/3.7.1-kube-1.20.11-alpine-3.14
   stage: build
   services:
