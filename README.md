@@ -17,7 +17,7 @@ There are currently 3 different versions of this application:
 - v2: new frontends for result and vote
 - v3: same as v2 but using NATS instead of Redis+Postgres+Worker
 
-## v1: original version (legacy)
+## Original version (legacy)
 
 This is the first version of the VotingApp. It is composed of 5 micro-services as illustrated in the following schema.
 
@@ -94,7 +94,7 @@ Prerequisites: clone all repositories (config, vote, result, worker) in the same
 From *config/compose*, run the following command:
 
 ```
-$ docker-compose up
+$ docker compose up
 ```
 
 This deploys the application using the branches currently checked out for each microservice.
@@ -102,17 +102,15 @@ This deploys the application using the branches currently checked out for each m
 The *LANGUAGE* environment variable can to be set to *java*, *dotnet* or *go* to deploy the corresponding flavor of the worker microservice. The following command deploy the VotingApp with the *java* version of the worker.
 
 ```
-LANGUAGE=java docker-compose up
+LANGUAGE=java docker compose up
 ```
 
 ## Installation with standard manifests
 
-The *manifests* folder contains subfolders, each of them containing the yaml specifications of the application:
-
-To install the version *VERSION* of the VotingApp, run the following command (changing the VERSION to either v1, v2 or v3)
+The *manifests* folder contains the yaml specifications of the latest release of the VotingApp. Deploy it using the following command:
 
 ```
-kubectl apply -f manifests/VERSION
+kubectl apply -f manifests
 ```
 
 ## Installation with [Helm](https://helm.sh)
@@ -123,19 +121,22 @@ The application can be installed using [Helm](https://helm.sh) with the followin
 helm upgrade --install -f values.yaml voting .
 ```
 
-*values.yaml* contains properties that enable to configure the version that should be deployed (v1, v2 or v3) and the language of the worker (Java, .NET or Go)
+*values.yaml* contains properties that enable to configure the version that should be deployed
 
-## Installation with [Kustomize](https://kustomize.io)
+Also, for demo purposes, the Helm chart of the VotingApp are distributed in 2 different locations:
 
-The different flavors of the application can be installed using [Kustomize](https://kustomize.io). From the *kustomize* folder, each version can be deployed using the following command:
+- GitLab Package registry
+- DockerHub (oci registry)
+
+The application can be installed from the GitLab package using the following command:
 
 ```
-kubectl apply -k overlays/VERSION
+helm repo add votingapp https://gitlab.com/api/v4/projects/25309838/packages/helm/stable
+helm install votingapp votingapp/votingapp
 ```
 
-# Blog articles
+Or it can be installed from the DockerHub:
 
-Several articles using the VotingApp to illustrate technological pieces:
-- [Raw Manifests, Helm, Kustomize Several ways an application can be deployed in Kubernetes](https://itnext.io/k8s-tips-manifests-helm-kustomize-12f72f878022)
-- [Deploying the VotingApp on Shipa](https://itnext.io/deploying-the-votingapp-on-shipa-2af9c6097bb3)
-- [Docker, Kaniko, Buildah, different ways to build container images](https://itnext.io/docker-kaniko-buildah-209abdde5f94)
+```
+helm install votingapp oci://registry-1.docker.io/lucj/votingapp --version v1.0.59
+```
