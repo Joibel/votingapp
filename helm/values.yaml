@@ -18,5 +18,4 @@ result-ui:
 # Ingress
 #  ingress: 
 #    enabled: false
-#    (ignored if ingress disabled)
-#    tls: false
+#    tls: false (ignored if ingress disabled)
