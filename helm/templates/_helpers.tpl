@@ -60,18 +60,3 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
-
-{{/*
-Return image tags depending upon NATS or worker mode
-*/}}
-{{- define "votingApp.imageTag" -}}
-{{- if .Values.nats }}
-{{- if eq .Values.nats "enabled" }}
-{{- default "v3" }}
-{{- else }}
-{{- default "" }}
-{{- end }}
-{{- else }}
-{{- default "" }}
-{{- end }}
-{{- end }}

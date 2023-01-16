@@ -15,9 +15,37 @@ spec:
         app: result
     spec:
       containers:
-        - image: {{ .Values.registry }}/result:{{ include "votingApp.imageTag" . | default .Values.result.tag }}
+        - image: {{ .Values.registry }}/result:{{ .Values.result.tag }}
           name: result
+          {{- if .Values.nats }} 
+          env:
+          - name: BACKEND
+            value: {{ if eq .Values.nats "enabled" }}"nats"{{ else }}"db"{{ end }}
+          {{- end }}
           imagePullPolicy: Always
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            tcpSocket:
+              port: 5000
           ports:
             - containerPort: 5000
-              name: result
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 128Mi 
+              cpu: 100m
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsUser: 10000
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop:
+              - ALL
