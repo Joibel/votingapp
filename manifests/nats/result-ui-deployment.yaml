@@ -38,11 +38,16 @@ spec:
               cpu: 50m
           securityContext:
             allowPrivilegeEscalation: false
-            #readOnlyRootFilesystem: true
-            #runAsUser: 10000
-            #runAsNonRoot: true
+            readOnlyRootFilesystem: true
             seccompProfile:
               type: RuntimeDefault
-            #capabilities:
-            #  drop:
-            #  - ALL
+          volumeMounts:
+          - name: run
+            mountPath: /var/run
+          - name: cache
+            mountPath: /var/cache/nginx
+      volumes:
+      - name: run
+        emptyDir: {}
+      - name: cache
+        emptyDir: {}

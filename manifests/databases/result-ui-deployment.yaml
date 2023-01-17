@@ -1,24 +1,24 @@
 ---
-# Source: votingapp/templates/vote-ui-deployment.yaml
+# Source: votingapp/templates/result-ui-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: vote-ui
-  name: vote-ui
+    app: result-ui
+  name: result-ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: vote-ui
+      app: result-ui
   template:
     metadata:
       labels:
-        app: vote-ui
+        app: result-ui
     spec:
       containers:
-        - image: registry.gitlab.com/voting-application/vote-ui:v1.0.13
-          name: vote-ui
+        - image: registry.gitlab.com/voting-application/result-ui:v1.0.11
+          name: result-ui
           imagePullPolicy: Always
           livenessProbe:
             initialDelaySeconds: 10
@@ -38,11 +38,16 @@ spec:
               cpu: 50m
           securityContext:
             allowPrivilegeEscalation: false
-            #readOnlyRootFilesystem: true
-            #runAsUser: 10000
-            #runAsNonRoot: true
+            readOnlyRootFilesystem: true
             seccompProfile:
               type: RuntimeDefault
-            #capabilities:
-            #  drop:
-            #  - ALL
+          volumeMounts:
+          - name: run
+            mountPath: /var/run
+          - name: cache
+            mountPath: /var/cache/nginx
+      volumes:
+      - name: run
+        emptyDir: {}
+      - name: cache
+        emptyDir: {}
