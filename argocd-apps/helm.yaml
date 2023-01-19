@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: votingapp
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: votingapp
+    repoURL: https://gitlab.com/api/v4/projects/25309838/packages/helm/stable
+    targetRevision: v1.0.70
+    helm:
+      releaseName: votingapp
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vote
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
