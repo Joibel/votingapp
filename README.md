@@ -138,5 +138,5 @@ helm install votingapp votingapp/votingapp
 Or it can be installed from the DockerHub:
 
 ```
-helm install votingapp oci://registry-1.docker.io/lucj/votingapp --version v1.0.59
+helm install votingapp oci://registry-1.docker.io/lucj/votingapp --version v1.0.71
 ```
