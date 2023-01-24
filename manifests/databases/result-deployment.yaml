@@ -38,9 +38,9 @@ spec:
               cpu: 100m
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            runAsUser: 10000
-            runAsNonRoot: true
+            # readOnlyRootFilesystem: true
+            # runAsUser: 10000
+            # runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
             capabilities:
