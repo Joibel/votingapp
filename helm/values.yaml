@@ -7,7 +7,7 @@ vote:
 worker:
   tag: v1.0.4
 result:
-  tag: v1.0.9
+  tag: v1.0.10
 result-ui:
   tag: v1.0.11
 
