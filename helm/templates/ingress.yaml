@@ -1,28 +1,35 @@
-{{ if .Values.ingress }}{{ if eq .Values.ingress.enabled true }}
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+{{ if .Values.ingress }}{{ if eq .Values.ingress "enabled" }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: voting
+  name: vote
 spec:
-  entryPoints:
-  {{- if eq .Values.ingress.tls true }}
-  - websecure
-  {{- else }}
-  - web
-  {{- end }}
-  routes:
-  - match: Host(`vote.techwhale.io`)
-    kind: Rule
-    services:
-    - name: vote-ui
-      port: 80
-  - match: Host(`result.techwhale.io`)
-    kind: Rule
-    services:
-    - name: result-ui
-      port: 80
-  {{- if eq .Values.ingress.tls true }}
+  rules:
+    - host: {{ .Values.url.vote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vote-ui
+                port:
+                  number: 80
+    - host: {{ .Values.url.result }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: result-ui
+                port:
+                  number: 80
+  {{ if .Values.tls }}{{ if eq .Values.tls "enabled" }}
   tls:
-    certResolver: le
-  {{- end }}
+    - hosts:
+      - {{ .Values.url.vote }}
+      - {{ .Values.url.result }}
+      secretName: "tls-vote"
+  {{ end }}{{ end }}    
 {{ end }}{{ end }}
