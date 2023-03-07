@@ -15,16 +15,20 @@ result-ui:
 # Using NATS instead of worker mode. Possible values: enabled, disabled (default)
 # nats: enabled
 
-# URLs of web frontend
-# url:
-#  vote: vote.DOMAIN.TLD
-#  result: result.DOMAIN.TLD
-
 # Ingress / TLS
 # ingress: enabled
-# tls: enabled # ignored if ingress is disabled
 
-# Add dummy votes
+# URLs of web frontend:
+# - ignored if ingress disabled
+# - must be provided if ingress is enabled
+# url:
+#  vote: vote.domain.tld
+#  result: result.domain.tld
+
+# TLS (ignored if ingress disabled)
+# tls: enabled
+
+# Add dummy votes on a regular basis
 # seed: enabled
-# schedule: "0 * * * *" # Ignore if seed is disabled
+# schedule: "0 * * * *"
 # number_of_votes: 5
