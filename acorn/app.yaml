@@ -4,4 +4,4 @@ metadata:
   name: vote
   namespace: vote
 spec:
-  image: docker.io/lucj/voting:v1.0.75
+  image: docker.io/lucj/voting:v1.0.76
