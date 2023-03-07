@@ -1,4 +1,5 @@
 registry: registry.gitlab.com/voting-application
+
 # Microservices tags
 vote-ui:
   tag: v1.0.13
@@ -12,9 +13,18 @@ result-ui:
   tag: v1.0.11
 
 # Using NATS instead of worker mode. Possible values: enabled, disabled (default)
-# nats: disabled
+# nats: enabled
 
-# Ingress
-#  ingress: 
-#    enabled: false
-#    tls: false (ignored if ingress disabled)
+# URLs of web frontend
+# url:
+#  vote: vote.DOMAIN.TLD
+#  result: result.DOMAIN.TLD
+
+# Ingress / TLS
+# ingress: enabled
+# tls: enabled # ignored if ingress is disabled
+
+# Add dummy votes
+# seed: enabled
+# schedule: "0 * * * *" # Ignore if seed is disabled
+# number_of_votes: 5
