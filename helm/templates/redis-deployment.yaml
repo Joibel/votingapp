@@ -1,4 +1,4 @@
-{{- if or (not .Values.nats) (eq .Values.nats "disabled") }} 
+{{ if or (not .Values.nats) (eq .Values.nats "disabled") }} 
 apiVersion: apps/v1
 kind: Deployment
 metadata:

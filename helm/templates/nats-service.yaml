@@ -1,4 +1,4 @@
-{{- if .Values.nats }}{{ if eq .Values.nats "enabled" }} 
+{{ if .Values.nats }}{{ if eq .Values.nats "enabled" }} 
 apiVersion: v1
 kind: Service
 metadata:
