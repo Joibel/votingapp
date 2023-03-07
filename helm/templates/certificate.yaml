@@ -1,0 +1,14 @@
+{{ if .Values.tls }}{{ if eq .Values.tls "enabled" }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vote
+spec:
+  secretName: tls-vote
+  dnsNames:
+  - "{{ .Values.url.vote }}"
+  - "{{ .Values.url.result }}"
+  issuerRef:
+    kind: ClusterIssuer
+    name: le
+{{ end }}{{ end }}
