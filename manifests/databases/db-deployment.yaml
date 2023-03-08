@@ -52,12 +52,8 @@ spec:
             seccompProfile:
               type: RuntimeDefault
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: data
             - mountPath: /var/run/postgresql
               name: run
       volumes:
-        - name: data
-          emptyDir: {}
         - name: run
           emptyDir: {}
