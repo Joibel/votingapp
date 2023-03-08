@@ -16,6 +16,10 @@ result-ui:
 # db_username: "postgres" 
 # db_password: "postgres"
 
+# Postgres persistence
+# db_persistence: disabled
+# db_storage_class: storage_class_to_use # Must be provided if db_persistence is enabled
+
 # Using NATS instead of worker mode. Possible values: enabled, disabled (default)
 # nats: enabled
 

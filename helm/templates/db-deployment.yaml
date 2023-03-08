@@ -51,13 +51,18 @@ spec:
             seccompProfile:
               type: RuntimeDefault
           volumeMounts:
+            {{- if .Values.db_persistence }}{{- if eq .Values.db_persistence "enabled" }}
             - mountPath: /var/lib/postgresql/data
               name: data
+            {{- end }}{{- end }}
             - mountPath: /var/run/postgresql
               name: run
       volumes:
+        {{- if .Values.db_persistence }}{{- if eq .Values.db_persistence "enabled" }}
         - name: data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: db
+        {{- end }}{{- end }}
         - name: run
           emptyDir: {}
 {{- end }}

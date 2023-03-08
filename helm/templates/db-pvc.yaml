@@ -1,0 +1,13 @@
+{{ if .Values.db_persistence }}{{ if eq .Values.db_persistence "enabled" }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+  storageClassName: {{ required "A valid storageclass is required in db_storage_class" .Values.db_storage_class }}
+{{ end }}{{ end }}
