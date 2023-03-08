@@ -17,10 +17,20 @@ spec:
       containers:
         - image: {{ .Values.registry }}/result:{{ .Values.result.tag }}
           name: result
-          {{- if .Values.nats }} 
           env:
-          - name: BACKEND
-            value: {{ if eq .Values.nats "enabled" }}"nats"{{ else }}"db"{{ end }}
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
+          {{- if .Values.nats }}
+            - name: BACKEND
+              value: {{ if eq .Values.nats "enabled" }}"nats"{{ else }}"db"{{ end }}
           {{- end }}
           imagePullPolicy: Always
           livenessProbe:

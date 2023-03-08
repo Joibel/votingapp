@@ -12,6 +12,10 @@ result:
 result-ui:
   tag: v1.0.11
 
+# Postgres credentails
+# db_username: "postgres" 
+# db_password: "postgres"
+
 # Using NATS instead of worker mode. Possible values: enabled, disabled (default)
 # nats: enabled
 

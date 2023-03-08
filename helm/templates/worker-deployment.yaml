@@ -18,6 +18,17 @@ spec:
       containers:
         - image: {{ .Values.registry }}/worker:{{ .Values.worker.tag }}
           name: worker
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
           imagePullPolicy: Always
           resources:
             requests:
