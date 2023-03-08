@@ -19,6 +19,17 @@ spec:
       containers:
         - image: registry.gitlab.com/voting-application/result:v1.0.10
           name: result
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
           imagePullPolicy: Always
           livenessProbe:
             initialDelaySeconds: 10

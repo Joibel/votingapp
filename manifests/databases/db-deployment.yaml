@@ -21,9 +21,15 @@ spec:
           name: postgres
           env:
             - name: POSTGRES_USER
-              value: postgres
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: username
             - name: POSTGRES_PASSWORD
-              value: postgres
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
           livenessProbe:
             initialDelaySeconds: 10
             periodSeconds: 5

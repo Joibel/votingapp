@@ -18,10 +18,20 @@ spec:
     spec:
       containers:
         - image: registry.gitlab.com/voting-application/result:v1.0.10
-          name: result 
+          name: result
           env:
-          - name: BACKEND
-            value: "nats"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
+            - name: BACKEND
+              value: "nats"
           imagePullPolicy: Always
           livenessProbe:
             initialDelaySeconds: 10
