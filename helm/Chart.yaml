@@ -1,6 +1,6 @@
 apiVersion: v2
 name: votingapp
-description: A Helm chart describing the VotingApp
+description: A Helm chart describing the Voting Application
 type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
