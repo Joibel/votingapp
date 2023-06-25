@@ -1,3 +1,7 @@
+labels: {
+    application: "votingapp"
+}
+
 args: {
     replicas: 1
 }
@@ -11,10 +15,6 @@ profiles: {
     }
 }
 
-labels: {
-    application: "votingapp"
-}
-
 containers: {
   
   voteui: {
@@ -22,15 +22,14 @@ containers: {
       component: "voteui"
     }
     if args.dev {
-      dirs: {
-        "/usr/share/nginx/html": "../../vote-ui"
-      }
+      dirs: "/usr/share/nginx/html": "./vote-ui"
     }
     build: {
-      context: "../../vote-ui"
+      context: "./vote-ui"
     }
     ports: publish : "80/http"
     scale: args.replicas
+    memory: 32Mi
   }
 
   vote: {
@@ -39,45 +38,48 @@ containers: {
     }
     build: {
       target: std.ifelse(args.dev, "dev", "production")
-      context: "../../vote"
+      context: "./vote"
     }
     if args.dev {
       dirs: {
-          "/app": "../../vote"
+          "/app": "./vote"
       }
     }
     ports: "5000/http"
+    memory: 128Mi
   }
 
   redis: {
     labels: {
       component: "redis"
     }
-    image: "redis:7.0.7-alpine3.17"
+    image: "redis:7.0.11-alpine3.18"
     ports: "6379/tcp"
     dirs: {
       if !args.dev {
         "/data": "volume://redis"
       }
     }
+    memory: 32Mi
   }
 
   worker: {
     labels: {
       component: "worker"
     }
-    build: "../../worker/go"
+    build: "./worker/go"
     env: {
      "POSTGRES_USER": "secret://db-creds/username"
      "POSTGRES_PASSWORD": "secret://db-creds/password"
     }
+    memory: 32Mi
   }
 
   db: {
     labels: {
       component: "db"
     }
-    image: "postgres:15.1-alpine3.17"
+    image: "postgres:15.3-alpine3.18"
     ports: "5432/tcp"
     env: {
      "POSTGRES_USER": "secret://db-creds/username"
@@ -88,6 +90,7 @@ containers: {
         "/var/lib/postgresql/data": "volume://db"
       }
     }
+    memory: 128Mi
   }
 
   result: {
@@ -96,18 +99,17 @@ containers: {
     }
     build: {
       target: std.ifelse(args.dev, "dev", "production")
-      context: "../../result"
+      context: "./result"
     }
     if args.dev {
-      dirs: {
-        "/app": "../../result"
-      }
+      dirs: "/app": "./result"
     }  
     ports: "5000/http"
     env: {
      "POSTGRES_USER": "secret://db-creds/username"
      "POSTGRES_PASSWORD": "secret://db-creds/password"
    }
+   memory: 128Mi
   }
 
   resultui: {
@@ -116,14 +118,15 @@ containers: {
     }
     build: {
       target: std.ifelse(args.dev, "dev", "production")
-      context: "../../result-ui"
+      context: "./result-ui"
     }
     if args.dev {
-      dirs: {
-        "/app/src": "../../result-ui/src"
-      }
+      dirs:  "/app/src": "./result-ui/src"
     } 
     ports: publish : "80/http"
+    if ! args.dev {
+      memory: 32Mi
+    }
   }
 }
 
@@ -145,5 +148,13 @@ volumes: {
     "redis": {
         size: "100M"
     }
+  }
+}
+
+if args.dev {
+  jobs: {
+      "seed": {
+        image: "registry.gitlab.com/voting-application/tools:seed"
+      }
   }
 }
