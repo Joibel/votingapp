@@ -3,16 +3,34 @@ labels: {
 }
 
 args: {
+    build: false
+    
     replicas: 1
+
+    // Use hosted Postgres database
+    hostedPostgres: false
+
+    // Use hosted Redis database
+    hostedRedis: false
 }
 
-profiles: {
-    dev: {
-        replicas: 1
-    }
-    test: {
-        replicas: 2
-    }
+if args.hostedRedis || args.build {
+  services: "exo-redis": {
+      image: "docker.io/lucj/acorn-exo-dbaas-service"
+      serviceArgs: {
+        name: "redis"
+      }
+  }
+}
+
+if args.hostedPostgres || args.build {
+  services: "exo-pg": {
+      image: "docker.io/lucj/acorn-exo-dbaas-service"
+      serviceArgs: {
+        type: "pg"
+        name: "pg"
+      }
+  }
 }
 
 containers: {
@@ -45,22 +63,29 @@ containers: {
           "/app": "./vote"
       }
     }
+    if args.hostedRedis {
+      env: {
+        REDIS_URL: "@{services.exo-redis.data.proto}://@{services.exo-redis.secrets.db-creds.username}:@{services.exo-redis.secrets.db-creds.password}@@{services.exo-redis.address}:@{services.exo-redis.data.port}"
+      }
+    }
     ports: "5000/http"
     memory: 128Mi
   }
 
-  redis: {
-    labels: {
-      component: "redis"
-    }
-    image: "redis:7.0.11-alpine3.18"
-    ports: "6379/tcp"
-    dirs: {
-      if !args.dev {
-        "/data": "volume://redis"
+  if !args.hostedRedis || args.build {
+    redis: {
+      labels: {
+        component: "redis"
       }
+      image: "redis:7.0.11-alpine3.18"
+      ports: "6379/tcp"
+      dirs: {
+        if !args.dev {
+          "/data": "volume://redis"
+        }
+      }
+      memory: 32Mi
     }
-    memory: 32Mi
   }
 
   worker: {
@@ -69,28 +94,38 @@ containers: {
     }
     build: "./worker/go"
     env: {
-     "POSTGRES_USER": "secret://db-creds/username"
-     "POSTGRES_PASSWORD": "secret://db-creds/password"
+      if args.hostedRedis {
+        REDIS_URL: "@{services.exo-redis.data.proto}://@{services.exo-redis.secrets.db-creds.username}:@{services.exo-redis.secrets.db-creds.password}@@{services.exo-redis.address}:@{services.exo-redis.data.port}"
+      }
+      if args.hostedPostgres {
+        POSTGRES_URL: "@{services.exo-pg.data.proto}://@{services.exo-pg.secrets.db-creds.username}:@{services.exo-pg.secrets.db-creds.password}@@{services.exo-pg.address}:@{services.exo-pg.data.port}@{services.exo-pg.data.opts}"
+      }
+      if !args.hostedPostgres {
+        "POSTGRES_USER": "secret://db-creds/username"
+        "POSTGRES_PASSWORD": "secret://db-creds/password"
+      }
     }
     memory: 32Mi
   }
 
-  db: {
-    labels: {
-      component: "db"
-    }
-    image: "postgres:15.3-alpine3.18"
-    ports: "5432/tcp"
-    env: {
-     "POSTGRES_USER": "secret://db-creds/username"
-     "POSTGRES_PASSWORD": "secret://db-creds/password"
-    }
-    dirs: {
-      if !args.dev {
-        "/var/lib/postgresql/data": "volume://db"
+  if !args.hostedPostgres || args.build {
+    db: {
+      labels: {
+        component: "db"
       }
+      image: "postgres:15.3-alpine3.18"
+      ports: "5432/tcp"
+      env: {
+        "POSTGRES_USER": "secret://db-creds/username"
+        "POSTGRES_PASSWORD": "secret://db-creds/password"
+      }
+      dirs: {
+        if !args.dev {
+          "/var/lib/postgresql/data": "volume://db"
+        }
+      }
+      memory: 128Mi
     }
-    memory: 128Mi
   }
 
   result: {
@@ -106,9 +141,14 @@ containers: {
     }  
     ports: "5000/http"
     env: {
-     "POSTGRES_USER": "secret://db-creds/username"
-     "POSTGRES_PASSWORD": "secret://db-creds/password"
-   }
+      if args.hostedPostgres {
+        POSTGRES_URL: "@{services.exo-pg.data.proto}://@{services.exo-pg.secrets.db-creds.username}:@{services.exo-pg.secrets.db-creds.password}@@{services.exo-pg.address}:@{services.exo-pg.data.port}@{services.exo-pg.data.opts}"
+      }
+      if !args.hostedPostgres {
+        "POSTGRES_USER": "secret://db-creds/username"
+        "POSTGRES_PASSWORD": "secret://db-creds/password"
+      }
+    }
    memory: 128Mi
   }
 
@@ -130,21 +170,25 @@ containers: {
   }
 }
 
-secrets: {
-    "db-creds": {
-        type: "basic"
-        data: {
-            username: ""
-            password: ""
-        }
-    }
+if !args.hostedPostgres {
+  secrets: {
+      "db-creds": {
+          type: "basic"
+          data: {
+              username: ""
+              password: ""
+          }
+      }
+  }
 }
 
 volumes: {
-  if !args.dev {
+  if !args.dev && !args.hostedPostgres {
     "db": {
         size: "100M"
     }
+  }
+  if !args.dev && !args.hostedRedis {
     "redis": {
         size: "100M"
     }
