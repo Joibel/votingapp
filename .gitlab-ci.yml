@@ -19,12 +19,13 @@ release:
     changes:
     - helm/**/*
     - acorn/Acornfile
+    - .gitlab-ci.yml
 
 build and push acorn app:
   image: registry.gitlab.com/gitlab-org/cluster-integration/helm-install-image/releases/3.7.1-kube-1.20.11-alpine-3.14
   stage: build
   services:
-    - name: registry.gitlab.com/gitlab-org/cluster-integration/test-utils/k3s-gitlab-ci/releases/v1.25.0-k3s1
+    - name: registry.gitlab.com/gitlab-org/cluster-integration/test-utils/k3s-gitlab-ci/releases/v1.27.1-k3s1
       alias: k3s
   script:
     - |
@@ -35,6 +36,7 @@ build and push acorn app:
       git clone --depth 1 https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/voting-application/worker.git
       git clone --depth 1 https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/voting-application/result.git
       git clone --depth 1 https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/voting-application/result-ui.git
+    - apk upgrade
     - apk add -u curl
     - curl -f k3s:8081 > k3s.yaml
     - export KUBECONFIG=$(pwd)/k3s.yaml
