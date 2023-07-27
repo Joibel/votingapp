@@ -16,6 +16,10 @@ spec:
     spec:
       containers:
         - image: {{ .Values.registry }}/vote:{{ .Values.vote.tag }}
+          command:
+          - "/bin/sh"
+          - "-c"
+          - "gunicorn app:app -b 0.0.0.0:5000 --log-file - --access-logfile - --workers 2 --keep-alive 0 --timeout 600"
           name: vote
           {{- if .Values.nats }} 
           env:
@@ -24,8 +28,8 @@ spec:
           {{- end }}
           imagePullPolicy: Always
           livenessProbe:
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 30
+            periodSeconds: 10
             successThreshold: 1
             failureThreshold: 3
             tcpSocket:
@@ -34,11 +38,10 @@ spec:
             - containerPort: 5000
           resources:
             requests:
-              memory: 128Mi
-              cpu: 50m
+              memory: 256Mi
+              cpu: 200m
             limits:
-              memory: 128Mi 
-              cpu: 50m
+              memory: 256Mi 
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
