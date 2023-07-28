@@ -17,7 +17,7 @@ spec:
         app: worker
     spec:
       containers:
-        - image: registry.gitlab.com/voting-application/worker:v1.0.6
+        - image: registry.gitlab.com/voting-application/worker:v1.0.7
           name: worker
           env:
             - name: POSTGRES_USER
