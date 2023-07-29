@@ -16,10 +16,6 @@ spec:
     spec:
       containers:
         - image: {{ .Values.registry }}/vote:{{ .Values.vote.tag }}
-          command:
-          - "/bin/sh"
-          - "-c"
-          - "gunicorn app:app -b 0.0.0.0:5000 --log-file - --access-logfile - --workers 2 --keep-alive 0 --timeout 600"
           name: vote
           {{- if .Values.nats }} 
           env:
