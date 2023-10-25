@@ -47,7 +47,7 @@ containers: {
     }
     ports: publish : "80/http"
     scale: args.replicas
-    memory: 32Mi
+    memory: 128Mi
   }
 
   vote: {
@@ -84,7 +84,7 @@ containers: {
           "/data": "volume://redis"
         }
       }
-      memory: 32Mi
+      memory: 128Mi
     }
   }
 
@@ -105,7 +105,7 @@ containers: {
         "POSTGRES_PASSWORD": "secret://db-creds/password"
       }
     }
-    memory: 32Mi
+    memory: 128Mi
   }
 
   if !args.hostedPostgres || args.build {
@@ -116,6 +116,7 @@ containers: {
       image: "postgres:15.3-alpine3.18"
       ports: "5432/tcp"
       env: {
+        "PGDATA": "/var/lib/postgresql/data/db"
         "POSTGRES_USER": "secret://db-creds/username"
         "POSTGRES_PASSWORD": "secret://db-creds/password"
       }
@@ -165,7 +166,7 @@ containers: {
     } 
     ports: publish : "80/http"
     if ! args.dev {
-      memory: 32Mi
+      memory: 128Mi
     }
   }
 }
@@ -174,7 +175,13 @@ if !args.hostedPostgres {
   secrets: {
       "db-creds": {
           type: "basic"
-          data: {
+          params: {
+            usernameLength: 6
+            usernameCharacters: "A-Za-z0-9"
+            passwordLength: 10
+            passwordCharacters: "A-Za-z0-9"
+          }
+          data: {  
               username: ""
               password: ""
           }
