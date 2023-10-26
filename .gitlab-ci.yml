@@ -47,7 +47,7 @@ build and push acorn app:
     - cp acorn/Acornfile Acornfile
     - echo "About to build acorn image docker.io/lucj/voting:$CI_COMMIT_TAG"
     # - acorn build -t docker.io/lucj/voting:$CI_COMMIT_TAG -p linux/amd64 -p linux/arm64/v8 .
-    - acorn build -t docker.io/lucj/voting:$CI_COMMIT_TAG . --build
+    - acorn build -t docker.io/lucj/voting:$CI_COMMIT_TAG .
     - acorn push docker.io/lucj/voting:$CI_COMMIT_TAG
   only:
     - tags
