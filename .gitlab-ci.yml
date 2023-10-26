@@ -36,6 +36,7 @@ build and push acorn app:
       git clone --depth 1 https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/voting-application/worker.git
       git clone --depth 1 https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/voting-application/result.git
       git clone --depth 1 https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/voting-application/result-ui.git
+      git clone --depth 1 https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/voting-application/tools.git
     - apk upgrade
     - apk add -u curl
     - curl -f k3s:8081 > k3s.yaml
