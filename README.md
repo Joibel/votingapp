@@ -87,25 +87,19 @@ In the official GitHub repository, all the projects are under the same umbrella.
 
 The *config* repository is a new repository that has been added, it is used to deploy the whole application in several ways in a Kubernetes or Docker (Compose / Swarm) environments:
 
-## Deployment on a simple machine with Docker Compose
+## Running the app with Docker Compose
 
 Prerequisites: clone all repositories (config, vote, result, worker) in the same folder.
 
 From *config/compose*, run the following command:
 
 ```
-$ docker compose up
+docker compose up
 ```
 
 This deploys the application using the branches currently checked out for each microservice.
 
-The *LANGUAGE* environment variable can to be set to *java*, *dotnet* or *go* to deploy the corresponding flavor of the worker microservice. The following command deploy the VotingApp with the *java* version of the worker.
-
-```
-LANGUAGE=java docker compose up
-```
-
-## Installation with standard manifests
+## Running the app with Kubernetes manifests
 
 The *manifests* folder contains the yaml specifications of the latest release of the VotingApp. Deploy it using the following command:
 
@@ -113,7 +107,7 @@ The *manifests* folder contains the yaml specifications of the latest release of
 kubectl apply -f manifests
 ```
 
-## Installation with [Helm](https://helm.sh)
+## Running the app with [Helm](https://helm.sh)
 
 The application can be installed using [Helm](https://helm.sh) with the following command within the *helm* folder:
 
@@ -138,5 +132,11 @@ helm install votingapp votingapp/votingapp
 Or it can be installed from the DockerHub:
 
 ```
-helm install votingapp oci://registry-1.docker.io/lucj/votingapp --version v1.0.71
+helm install votingapp oci://registry-1.docker.io/lucj/votingapp --version v1.0.96
 ```
+
+## Running the app with [Acorn](https://acorn.io)
+
+Acorn is a brand new platform which allow to build, run and share application. With a GitHub account you can deploy the VotingApp by a click on a button :)
+
+[![Run in Acorn](https://acorn.io/v1-ui/run/badge?image=docker.io+lucj+voting:v%23.%23.%23)](https://acorn.io/run/docker.io/lucj/voting:v%23.%23.%23)
