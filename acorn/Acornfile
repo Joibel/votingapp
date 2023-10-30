@@ -6,7 +6,8 @@ labels: {
 }
 
 args: {
-	replicas: 1
+	seedNbr: "5"
+	seedSchedule: "* * * * *"
 }
 
 containers: {
@@ -22,7 +23,6 @@ containers: {
 			context: "./vote-ui"
 		}
 		ports: publish: "80/http"
-		scale:  args.replicas
 		memory: 128Mi
 	}
 
@@ -141,7 +141,10 @@ jobs: {
 		build: {
 			context: "./tools/seed"
 		}
-		schedule: "*/5 * * * *"
+		env: {
+			"NUMBER_OF_VOTES": args.seedNbr
+		}
+		schedule: args.seedSchedule
 	}
 }
 
