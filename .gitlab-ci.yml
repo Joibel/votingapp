@@ -5,7 +5,7 @@ stages:
   - helm
 
 release:
-  image: node:18
+  image: node:20
   stage: release
   script:
     - touch CHANGELOG.md

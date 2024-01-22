@@ -11,6 +11,6 @@ spec:
   - "{{ .Values.url.result }}"
   issuerRef:
     kind: ClusterIssuer
-    name: le
+    name: letsencrypt
 {{ end }}{{ end }}
 {{ end }}{{ end }}
